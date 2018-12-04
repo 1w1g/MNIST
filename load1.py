@@ -2,8 +2,8 @@ from matplotlib import pyplot as plt
 from mnist import MNIST
 import numpy as np
 def decimal_to_bit(position):
-    output=np.zeros([1,10])
-    output[0,position]='1'
+    output=np.zeros([10,1])
+    output[position,0]='1'
     return output
 def reshape_image(orginal_img):
     reshaped_image=np.reshape(orginal_img,(784,1))
@@ -20,7 +20,7 @@ def load_training_data():
     i=0
     print('***Loading Training Data***')
     for img,lbl in zip(images,label):
-        y.append(reshape_label(lbl))
+        y.append(decimal_to_bit(lbl))
         x.append(reshape_image(img))
         i+=1
         if i%1000==0:

@@ -1,5 +1,5 @@
 #import training data (load.py) from MNIST data located in ./data
-import load1 as load
+import load_pkl as load
 #import numpy for calculations
 import numpy as np
 #import this for time mesuring
@@ -71,9 +71,9 @@ class NeuralNetwork():
         return nabla_w,nabla_b
     def update_weights(self,x,y,eta,epoch,test_x,test_y,batch_size=1,):
         for j in range(1,epoch+1):
-            idx=np.random.choice(len(x),replace=False)
-            np.random.shuffle(x[idx])
-            np.random.shuffle(y[idx])
+            c=list(zip(x,y))
+            np.random.shuffle(c)
+            x,y=zip(*c)
             # Divid data into mini batches and update weights
             for i in range(0,len(x),batch_size):
                 x_mini=x[i:i+batch_size]
@@ -154,9 +154,8 @@ def sigmoid_prime(z):
 
             
 start_time=timeit.default_timer()
-x,y=load.load_training_data()
-test_x,test_y=load.load_test_data()
-net=NeuralNetwork([784,60,10])
+x,y, test_x,test_y = load.load_data_wrapper()
+net=NeuralNetwork([784,30,10])
 print('before training')
 print(net.feed_forward(x[0]))
 net.SGD(x,y,3,30,test_x,test_y,10)

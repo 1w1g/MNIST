@@ -1,9 +1,12 @@
 #import training data (load.py) from MNIST data located in ./data
 import load
+#import load_pkl1 as load
 #import numpy for calculations
 import numpy as np
 #import this for time mesuring
 import timeit
+#import for showing images
+from matplotlib import pyplot as plt
 class NeuralNetwork():
     def __init__(self,net):
         self.size=len(net)
@@ -40,9 +43,11 @@ class NeuralNetwork():
         return nabla_w,nabla_b
     def update_weights(self,x,y,eta,epoch,test_x,test_y,batch_size=1,):
         for j in range(1,epoch+1):
-            idx=np.random.choice(len(x),replace=False)
-            np.random.shuffle(x[idx])
-            np.random.shuffle(y[idx])
+            #self.show_img(x[57],y[57])
+            c=list(zip(x,y))
+            np.random.shuffle(c)
+            x,y=zip(*c)
+            #self.show_img(x[57],y[57])
             # Divid data into mini batches and update weights
             for i in range(0,len(x),batch_size):
                 x_mini=x[i:i+batch_size]
@@ -59,6 +64,18 @@ class NeuralNetwork():
     def evaluate_test(self,test_data_x,test_data_y):
         result=[(np.argmax(self.feed_forward(x)),y) for x,y in zip(test_data_x,test_data_y) ]
         return sum((int(x==y)for x,y in result))
+        #for x,y in zip(test_data_x,test_data_y):
+        #    predicted=self.feed_forward(x)
+        #    print(predicted,np.argmax(predicted))
+        #    self.show_img(x,y)
+        
+
+    def show_img(self,x,y):
+        print(y)
+        x=np.reshape(x,(28,28))
+        p=plt.imshow(x,shape=(28,28))
+        plt.show(p)
+        
 
         
 
@@ -66,6 +83,7 @@ class NeuralNetwork():
 start_time=timeit.default_timer()
 x,y=load.load_training_data()
 test_x,test_y=load.load_test_data()
+#x,y, test_x,test_y = load.load_data_wrapper()
 net=NeuralNetwork([784,30,10])
 print('before training')
 print(net.feed_forward(x[0]))
@@ -73,6 +91,7 @@ print ("epch=00 %r/%r" %(net.evaluate_test(test_x,test_y),len(test_x)))
 net.update_weights(x,y,3,30,test_x,test_y,10)
 print('after training')
 print(net.feed_forward(x[0]))
+print(y[0])
 stop_time=timeit.default_timer()
 progress_time=stop_time-start_time
 print('Time=',progress_time)

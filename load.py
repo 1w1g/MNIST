@@ -7,6 +7,7 @@ def decimal_to_bit(position):
     return output
 def reshape_image(orginal_img):
     reshaped_image=np.reshape(orginal_img,(1,784))
+    reshaped_image=reshaped_image/255
     return reshaped_image
 def reshape_label(orginal_lbl):
     reshaped_label=np.reshape(orginal_lbl,(1,1))
@@ -20,7 +21,7 @@ def load_training_data():
     i=0
     print('***Loading Training Data***')
     for img,lbl in zip(images,label):
-        y.append(reshape_label(lbl))
+        y.append(decimal_to_bit(lbl))
         x.append(reshape_image(img))
         i+=1
         if i%1000==0:
@@ -41,10 +42,16 @@ def load_test_data():
         if i%1000==0:
             print('loading image ',i)
     return test_x,test_y
-
+def show_img(x,y):
+        print(y)
+        x=np.reshape(x,(28,28))
+        p=plt.imshow(x,shape=(28,28))
+        plt.show(p)
 
 if __name__=='__main__':
-    x,y=load_training_data()
-    print(y[57])
+    #x,y=load_training_data()
+    #print(y[57])
     test_x,test_y=load_test_data()
+    for x,y in zip(test_x,test_y):
+        show_img(x,y)
 
