@@ -1,6 +1,5 @@
 #import training data (load.py) from MNIST data located in ./data
 import load
-#import load_pkl1 as load
 #import numpy for calculations
 import numpy as np
 #import this for time mesuring
@@ -43,7 +42,6 @@ class NeuralNetwork():
         return nabla_w,nabla_b
     def update_weights(self,x,y,eta,epoch,test_x,test_y,batch_size=1,):
         for j in range(1,epoch+1):
-            #self.show_img(x[57],y[57])
             c=list(zip(x,y))
             np.random.shuffle(c)
             x,y=zip(*c)
@@ -64,10 +62,6 @@ class NeuralNetwork():
     def evaluate_test(self,test_data_x,test_data_y):
         result=[(np.argmax(self.feed_forward(x)),y) for x,y in zip(test_data_x,test_data_y) ]
         return sum((int(x==y)for x,y in result))
-        #for x,y in zip(test_data_x,test_data_y):
-        #    predicted=self.feed_forward(x)
-        #    print(predicted,np.argmax(predicted))
-        #    self.show_img(x,y)
         
 
     def show_img(self,x,y):
@@ -83,7 +77,6 @@ class NeuralNetwork():
 start_time=timeit.default_timer()
 x,y=load.load_training_data()
 test_x,test_y=load.load_test_data()
-#x,y, test_x,test_y = load.load_data_wrapper()
 net=NeuralNetwork([784,30,10])
 print('before training')
 print(net.feed_forward(x[0]))

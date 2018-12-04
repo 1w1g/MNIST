@@ -7,6 +7,7 @@ def decimal_to_bit(position):
     return output
 def reshape_image(orginal_img):
     reshaped_image=np.reshape(orginal_img,(1,784))
+    #normalize image
     reshaped_image=reshaped_image/255
     return reshaped_image
 def reshape_label(orginal_lbl):
