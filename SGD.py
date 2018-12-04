@@ -67,8 +67,8 @@ class NeuralNetwork():
         x=np.reshape(x,(28,28))
         p=plt.imshow(x,shape=(28,28))
         plt.show(p)
-        
-if __name__='__main__':           
+
+if __name__=='__main__':           
     start_time=timeit.default_timer()
     x,y=load.load_training_data()
     test_x,test_y=load.load_test_data()
