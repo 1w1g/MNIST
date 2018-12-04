@@ -62,29 +62,24 @@ class NeuralNetwork():
     def evaluate_test(self,test_data_x,test_data_y):
         result=[(np.argmax(self.feed_forward(x)),y) for x,y in zip(test_data_x,test_data_y) ]
         return sum((int(x==y)for x,y in result))
-        
-
     def show_img(self,x,y):
         print(y)
         x=np.reshape(x,(28,28))
         p=plt.imshow(x,shape=(28,28))
         plt.show(p)
         
-
-        
-
-            
-start_time=timeit.default_timer()
-x,y=load.load_training_data()
-test_x,test_y=load.load_test_data()
-net=NeuralNetwork([784,30,10])
-print('before training')
-print(net.feed_forward(x[0]))
-print ("epch=00 %r/%r" %(net.evaluate_test(test_x,test_y),len(test_x)))
-net.update_weights(x,y,3,30,test_x,test_y,10)
-print('after training')
-print(net.feed_forward(x[0]))
-print(y[0])
-stop_time=timeit.default_timer()
-progress_time=stop_time-start_time
-print('Time=',progress_time)
+if __name__='__main__':           
+    start_time=timeit.default_timer()
+    x,y=load.load_training_data()
+    test_x,test_y=load.load_test_data()
+    net=NeuralNetwork([784,30,10])
+    print('before training')
+    print(net.feed_forward(x[0]))
+    print ("epch=before training %r/%r" %(net.evaluate_test(test_x,test_y),len(test_x)))
+    net.update_weights(x,y,3,30,test_x,test_y,10)
+    print('after training')
+    print(net.feed_forward(x[0]))
+    print(y[0])
+    stop_time=timeit.default_timer()
+    progress_time=stop_time-start_time
+    print('Time=',progress_time)
